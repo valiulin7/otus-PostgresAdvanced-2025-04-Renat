@@ -9,6 +9,8 @@
 
 1. Развернуть Постгрес на ВМ
 
+![0c8dd7075c90258989628a8bf6600fe6.png](./0c8dd7075c90258989628a8bf6600fe6.png)
+
 ![5e79cc760c6a9da1cea37e30ddce3aad.png](./5e79cc760c6a9da1cea37e30ddce3aad.png)
 
 
@@ -17,7 +19,7 @@
 взял бд с https://postgrespro.ru/education/demodb
 и вначале прогнал скрипт на сервере с настройками по умолчанию boarding_passes_test.sql
 
-SELECT min(ticket_no), max(ticket_no)
+`SELECT min(ticket_no), max(ticket_no)
 FROM (
   SELECT *
   FROM bookings.boarding_passes
@@ -84,7 +86,7 @@ UPDATE bookings.boarding_passes bp
 SET seat_no = seat_no
 FROM rows_to_update r
 WHERE bp.ctid = r.ctid;
-COMMIT;
+COMMIT;`
 
 ![8f7d9a3c81ccab2898a3f4fd75cb8798.png](./8f7d9a3c81ccab2898a3f4fd75cb8798.png)
 
