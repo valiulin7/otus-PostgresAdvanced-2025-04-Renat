@@ -12,6 +12,10 @@
 
 [HW6 "Тюнинг Постгреса"](./HW06/readme.md)
 
+[HW7 "PostgreSQL в Minikube"](./HW07/readme.md)
+
+
+
 
 
 
