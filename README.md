@@ -14,6 +14,11 @@
 
 [HW7 "PostgreSQL в Minikube"](./HW07/readme.md)
 
+[HW8 "Managed Service for PostgreSQL"](./HW08/readme.md)
+
+
+
+
 
 
 
