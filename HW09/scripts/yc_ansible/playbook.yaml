@@ -1,0 +1,57 @@
+---
+- name: setup psql
+  hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: yes
+
+  vars:
+    psql_host: "rc1a-ucpchv9bou214b6h.mdb.yandexcloud.net"
+    psql_port: 6432
+    psql_db: "demo-db"
+    psql_user: "BLRMwuYu1SwuVvwDdea4JQ"
+    psql_pass: "nmCazMXf5uQU0qMUzc1CbmNGU4KktRHajK33CT3eS00JL19XWoFX69l/B6YLWX3r"
+    #sslmode: "verify-full"
+    sslmode: require
+
+  tasks:
+    - name: postgresql-client pgbench
+      apk:
+        name:
+          - postgresql-client
+          - postgresql-contrib
+        state: present
+        update_cache: yes
+
+    - name: SELECT version()
+      command: >
+        psql "host={{ psql_host }} port={{ psql_port }} sslmode={{ sslmode }}
+              dbname={{ psql_db }} user={{ psql_user }} target_session_attrs=read-write"
+        -c "SELECT version();"
+      environment:
+        PGPASSWORD: "{{ psql_pass }}"
+      register: query_result
+
+    - name: results
+      debug:
+        msg: "{{ query_result.stdout }}"
+
+    - name: init pgbench
+      command: >
+        pgbench -h {{ psql_host }} -p {{ psql_port }} -U {{ psql_user }} -d {{ psql_db }} -i
+      environment:
+        PGPASSWORD: "{{ psql_pass }}"
+      register: pgbench_init
+      changed_when: "'initializing' in pgbench_init.stdout or pgbench_init.rc == 0"
+
+    - name: run pgbench
+      command: >
+        pgbench -h {{ psql_host }} -p {{ psql_port }} -U {{ psql_user }} -d {{ psql_db }}
+        -c 1 -T 10 -j 1 --no-vacuum
+      environment:
+        PGPASSWORD: "{{ psql_pass }}"
+      register: pgbench_result
+
+    - name: output pgbench
+      debug:
+        msg: "{{ pgbench_result.stdout }}"

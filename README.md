@@ -16,6 +16,8 @@
 
 [HW8 "Managed Service for PostgreSQL"](./HW08/readme.md)
 
+[HW9 "PostgreSQL и VKcloud, ЯО, Sbercloud"](./HW09/readme.md)
+
 
 
 
