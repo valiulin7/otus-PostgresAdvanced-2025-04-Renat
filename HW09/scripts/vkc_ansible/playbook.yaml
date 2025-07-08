@@ -6,13 +6,13 @@
   gather_facts: yes
 
   vars:
-    psql_host: "rc1a-ucpchv9bou214b6h.mdb.yandexcloud.net"
-    psql_port: 6432
-    psql_db: "demo-db"
-    psql_user: "BLRMwuYu1SwuVvwDdea4JQ"
-    psql_pass: "nmCazMXf5uQU0qMUzc1CbFX69l/B6YLWX3r"
+    psql_host: "212.233.94.89"
+    psql_port: 5432
+    psql_db: "testdb_1"
+    psql_user: "testuser"
+    psql_pass: "secret"
     #sslmode: "verify-full"
-    sslmode: require
+    sslmode: allow
 
   tasks:
     - name: postgresql-client pgbench
