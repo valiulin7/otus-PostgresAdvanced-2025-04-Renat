@@ -18,6 +18,11 @@
 
 [HW9 "PostgreSQL и VKcloud, ЯО, Sbercloud"](./HW09/readme.md)
 
+[HW10 "Хранилище, которое выстояло"](./HW10/readme.md)
+
+
+
+
 
 
 
