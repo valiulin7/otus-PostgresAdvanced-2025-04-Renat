@@ -36,8 +36,15 @@
 
 ![21e3366316bd1c1481501d64aaa79d6d.png](./21e3366316bd1c1481501d64aaa79d6d.png)
 
+При отказе узла pg01 происходит автоматический failover:
 
-Симитируем отказ кластера patroni:
+![d7722e600d587d30c5be573ccbfbe073.png](./d7722e600d587d30c5be573ccbfbe073.png)
+
+![11c8c70a0f87baffb7dedb3eeacfff53.png](./11c8c70a0f87baffb7dedb3eeacfff53.png)
+
+![c60631178d19974a27091c3126421eb4.png](./c60631178d19974a27091c3126421eb4.png)
+
+Симитируем отказ всего кластера patroni:
 
 ![09e4b30f7de79fe01178d71a7aeb8bb8.png](./09e4b30f7de79fe01178d71a7aeb8bb8.png)
 StandBy сервер переходит в режим master
