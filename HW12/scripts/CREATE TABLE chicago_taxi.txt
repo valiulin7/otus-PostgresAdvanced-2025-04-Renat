@@ -1,0 +1,26 @@
+sudo -u postgres psql -d postgres -c "
+CREATE TABLE chicago_taxi (
+    trip_id TEXT,
+    taxi_id TEXT,
+    trip_start_timestamp TIMESTAMP,
+    trip_end_timestamp TIMESTAMP,
+    trip_seconds BIGINT,
+    trip_miles NUMERIC,
+    pickup_census_tract BIGINT,
+    dropoff_census_tract BIGINT,
+    pickup_community_area BIGINT,
+    dropoff_community_area BIGINT,
+    fare NUMERIC,
+    tips NUMERIC,
+    tolls NUMERIC,
+    extras NUMERIC,
+    trip_total NUMERIC,
+    payment_type TEXT,
+    company TEXT,
+    pickup_centroid_latitude NUMERIC,
+    pickup_centroid_longitude NUMERIC,
+    pickup_centroid_location GEOMETRY(Point, 4326),
+    dropoff_centroid_latitude NUMERIC,
+    dropoff_centroid_longitude NUMERIC,
+    dropoff_centroid_location GEOMETRY(Point, 4326)
+);"

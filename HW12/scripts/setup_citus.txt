@@ -1,0 +1,24 @@
+sudo -u postgres psql -d postgres -c "CREATE EXTENSION dblink;"
+sudo -u postgres psql -d postgres -c "
+SELECT citus_set_coordinator_host('cdb-00', 5432);"
+sudo -u postgres psql -d postgres -c "
+SELECT * FROM citus_add_node('cdb-01', 5432);
+SELECT * FROM citus_add_node('cdb-02', 5432);
+SELECT * FROM citus_add_node('cdb-03', 5432);"
+SELECT * FROM master_get_active_worker_nodes();
+SELECT create_distributed_table('chicago_taxi_distributed', 'distribution_key');"
+sudo -u postgres psql -d postgres -c \
+"COPY (SELECT 
+        trip_id, taxi_id, trip_start_timestamp, trip_end_timestamp,
+        trip_seconds, trip_miles, pickup_census_tract, dropoff_census_tract,
+        pickup_community_area, dropoff_community_area, fare, tips, tolls, extras,
+        trip_total, payment_type, company, pickup_centroid_latitude,
+        pickup_centroid_longitude, pickup_centroid_location,
+        dropoff_centroid_latitude, dropoff_centroid_longitude,
+        dropoff_centroid_location,
+        (random() * 3)::int  -- Случайное распределение 0, 1 или 2
+      FROM public.chicago_taxi) TO STDOUT WITH (FORMAT binary)" | \
+sudo -u postgres psql -d postgres -c \
+"COPY public.chicago_taxi_distributed FROM STDIN WITH (FORMAT binary)"
+
+select rebalance_table_shards('public.chicago_taxi_distributed');

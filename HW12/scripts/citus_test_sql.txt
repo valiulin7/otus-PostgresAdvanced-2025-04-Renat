@@ -1,0 +1,14 @@
+SELECT sum(trip_total)
+FROM chicago_taxi
+WHERE trip_start_timestamp BETWEEN date'2024-02-01' AND date'2024-02-15';
+
+SELECT sum(trip_total)
+FROM chicago_taxi_distributed
+WHERE trip_start_timestamp BETWEEN date'2024-02-01' AND date'2024-02-15';
+
+
+SELECT COUNT(*)
+FROM chicago_taxi_distributed;
+
+SELECT COUNT(*)
+FROM chicago_taxi;
