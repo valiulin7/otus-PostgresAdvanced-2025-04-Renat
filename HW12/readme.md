@@ -33,7 +33,7 @@
 
 `EXPLAIN ANALYZE SELECT count(*) FROM chicago_taxi;`
 
-<!--  Finalize Aggregate  (cost=1893221.12..1893221.13 rows=1 width=8) (actual time=824620.153..824660.083 rows=1 loops=1)
+**Finalize Aggregate  (cost=1893221.12..1893221.13 rows=1 width=8) (actual time=824620.153..824660.083 rows=1 loops=1)
    ->  Gather  (cost=1893220.70..1893221.11 rows=4 width=8) (actual time=824593.306..824660.033 rows=4 loops=1)
          Workers Planned: 4
          Workers Launched: 3
@@ -45,12 +45,12 @@
    Options: Inlining true, Optimization true, Expressions true, Deforming true
    Timing: Generation 0.989 ms (Deform 0.000 ms), Inlining 433.220 ms, Optimization 36.102 ms, Emission 35.382 ms, Total 505.693 ms
  Execution Time: 824752.896 ms
-(12 rows) -->
+(12 rows)**
 
 `EXPLAIN ANALYZE select sum(trip_total) from chicago_taxi where trip_start_timestamp between date'2024-02-01' and date'2024-02-15';`
 
 
-<!--  Aggregate  (cost=156738.61..156738.62 rows=1 width=32) (actual time=284706.701..284706.704 rows=1 loops=1)
+**Aggregate  (cost=156738.61..156738.62 rows=1 width=32) (actual time=284706.701..284706.704 rows=1 loops=1)
    ->  Bitmap Heap Scan on chicago_taxi  (cost=1567.05..156392.51 rows=138440 width=32) (actual time=361.915..283222.139 rows=6426880 loops=1)
          Recheck Cond: ((trip_start_timestamp >= '2024-02-01'::date) AND (trip_start_timestamp <= '2024-02-15'::date))
          Heap Blocks: exact=343965
@@ -62,7 +62,7 @@
    Options: Inlining false, Optimization false, Expressions true, Deforming true
    Timing: Generation 0.487 ms (Deform 0.272 ms), Inlining 0.000 ms, Optimization 0.423 ms, Emission 5.026 ms, Total 5.936 ms
  Execution Time: 284708.777 ms
-(12 rows) -->
+(12 rows)**
 
 
 ##### Тестирование с расширенимем Citus
@@ -78,9 +78,7 @@
 
 `EXPLAIN ANALYZE SELECT count(*) FROM chicago_taxi_distributed;`
 
-<!--  QUERY PLAN                                               
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- Aggregate  (cost=250.00..250.02 rows=1 width=8) (actual time=25085.749..25085.750 rows=1 loops=1)
+**Aggregate  (cost=250.00..250.02 rows=1 width=8) (actual time=25085.749..25085.750 rows=1 loops=1)
    ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=8) (actual time=25085.727..25085.733 rows=32 loops=1)
          Task Count: 32
          Tuple data received from nodes: 256 bytes
@@ -102,8 +100,7 @@
                    Execution Time: 25035.730 ms
  Planning Time: 0.995 ms
  Execution Time: 25085.827 ms
-(22 rows)
- -->
+(22 rows)**
 
 `
 EXPLAIN ANALYZE SELECT sum(trip_total)
@@ -111,7 +108,7 @@ FROM chicago_taxi_distributed
 WHERE trip_start_timestamp BETWEEN date'2024-02-01' AND date'2024-02-15';;`
 
 
-<!--   Aggregate  (cost=250.00..250.01 rows=1 width=32) (actual time=1868.450..1868.452 rows=1 loops=1)
+**Aggregate  (cost=250.00..250.01 rows=1 width=32) (actual time=1868.450..1868.452 rows=1 loops=1)
    ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=32) (actual time=1867.338..1867.344 rows=32 loops=1)
          Task Count: 32
          Tuple data received from nodes: 56 bytes
@@ -129,8 +126,7 @@ WHERE trip_start_timestamp BETWEEN date'2024-02-01' AND date'2024-02-15';;`
                    Execution Time: 1849.819 ms
  Planning Time: 0.761 ms
  Execution Time: 1868.481 ms
-(18 rows)
- -->
+(18 rows)**
 
 
 Несмотря на странные планы запросы выполнляются правильно и горадо быстрее чем на одной ноде
